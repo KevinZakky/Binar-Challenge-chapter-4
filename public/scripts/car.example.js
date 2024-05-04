@@ -1,4 +1,16 @@
-class Car {
+class Component {
+  constructor() {
+    if (new.target === Component) {
+      throw new TypeError("Cannot instantiate abstract class");
+    }
+  }
+  render() {
+    throw new Error("Method 'render' must be implemented");
+  }
+}
+
+// Concrete class Car yang mewarisi dari Component
+class Car extends Component {
   static list = [];
 
   static init(cars) {
@@ -22,6 +34,7 @@ class Car {
     specs,
     availableAt,
   }) {
+    super();
     this.id = id;
     this.plate = plate;
     this.manufacture = manufacture;
@@ -41,12 +54,21 @@ class Car {
 
   render() {
     return `
-      <p>id: <b>${this.id}</b></p>
-      <p>plate: <b>${this.plate}</b></p>
-      <p>manufacture: <b>${this.manufacture}</b></p>
-      <p>model: <b>${this.model}</b></p>
-      <p>available at: <b>${this.availableAt}</b></p>
-      <img src="${this.image}" alt="${this.manufacture}" width="64px">
+                <div class="col-4">
+                    <div class="card">
+                        <img src="${this.image}" class="card-img-top" alt="${this.manufacture}">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-type">${this.manufacture} ${this.model}/ ${this.type}</h5>
+                            <p class="card-title">${this.rentPerDay} / hari</p>
+                            <p class="card-text">${this.description}</p>
+                            <p><i class="fa-regular fa-user"></i>${this.capacity} orang</p>
+                            <p><i class="fa-solid fa-gear"></i> ${this.transmission}</p>
+                            <p><i class="fa-solid fa-calendar"></i>Tahun ${this.year}</p>
+                            <a href="#" class="btn btn-choose-car">Pilih
+                                Mobil</a>
+                        </div>
+                    </div>
+                </div>
     `;
   }
 }
